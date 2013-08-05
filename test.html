@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.io Test</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+  </head>
+  <body>
+    <script>    
+      var socket = io.connect();
+	  
+	  socket.on('msg', function(data){
+        $('#msg').text(data.msg);
+		//var myMsg = JSON.parse(data.msg);
+		//console.log(myMsg.length);
+      });
+	  socket.on('msgWrite', function(data){
+        $('#msgWrite').text(data.msgWrite);
+      });
+
+      $(document).ready(function(){
+        $('#text').keypress(function(e){
+          socket.emit('client_data', {'letter': String.fromCharCode(e.charCode)});
+        });
+      });
+    </script>
+    <div id="msg"></div>
+	<div id="msgWrite"></div>
+    <textarea id="text"></textarea>
+  </body>
+</html>
